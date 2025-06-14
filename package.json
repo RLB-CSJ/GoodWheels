@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A kids rental bike platform",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node --watch ./server/server.js",
     "dev": "vite",
@@ -28,6 +29,7 @@
     "concurrently": "^9.1.2",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "path": "^0.12.7",
     "react": "^19.1.0"
   }
 }

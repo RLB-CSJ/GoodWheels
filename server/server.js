@@ -1,7 +1,9 @@
 import express from 'express';
-import userController from './controllers/userController';
-import cookieController from './controllers/cookieController';
 import session from 'express-session';
+import path from 'path';
+import userController from './controllers/userController.js';
+import cookieController from './controllers/cookieController.js';
+import bikeController from './controllers/bikeController.js';
 
 const PORT = 3000;
 const app = express();
@@ -12,17 +14,17 @@ app.use(express.static('.'))
 //* Public Routes
 // Signup Route handler
 app.get('/signup', (req, res) => {
-    // May be unneeded. Could potentially be done in client side. Otherwise, res.redirect or res.sendFile(signup.html)
+    res.sendFile(index.html); // load html page //! Needs testing to see if needed since we're doing MPA
 })
 // Create a user route
-app.post('/signup', 'MIDDLEWARE', (req, res) => {
-    // res.redirect('/rent-a-bike') which will have authenticator checker
+app.post('/signup', (req, res) => {
+    res.redirect('/rentBike'); // which will have authenticator checker
 })
 
 // Login Route handler
-app.post('/login', userController.verifyUser, 'cookieMiddleware', 'session middleware', (req, res) => {
+app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
-        // some logic if authentication is wrong
+        return res.redirect ('/signup');
     }
     else {
         return res.redirect('/rentBike') //redirect to app.get route for marketboard
@@ -32,15 +34,15 @@ app.post('/login', userController.verifyUser, 'cookieMiddleware', 'session middl
 
 //* Authorized Routes
 // Marketboard main page route handler
-app.get('/rentBike', sessionController.isLoggedin, (req, res) => {
-    // res.sendFile(our marketboard HTML page)
+app.get('/rentBike', (req, res) => {
+    // res.sendFile(home.html) //!this file needs to be enabled but should link to new HTML
 })
 // Marketboard Available bikes Display route
-app.get('/api/bikes', 'MIDDLEWARE that pulls information of all available bikes', (req, res) => {
-    res.status(200).json(res.locals.YesBikes) //!res locals can be different dep on Cate
+app.get('/api/bikes', bikeController.getYesBikes, (req, res) => {
+    res.status(200).json(res.locals.bikes) //!For testing! Should return only bikes with property YES
 })
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
-app.patch('/api/bikes', 'MIDDLEWARE TO UPDATE INFORMATION', (req, res) => {
+app.patch('/api/bikes', bikeController.changeBikeState, (req, res) => {
     res.status(200).json(res.locals.YesBikes)
 })
 
@@ -49,7 +51,7 @@ app.get('/postBike', (req, res) => {
     // May be unneeded. Could potentially be done in client. Otherwise, res.redirect or res.sendFile(post-a-bike.html)
 })
 // Posting a new bike to rent/lend out from secondary Frontend page
-app.post('/api/bikes', 'MIDDLEWARE TO UPDATE INFORMATION', (req, res) => {
+app.post('/api/bikes', bikeController.createBike, (req, res) => {
     res.status(201).json({message: 'Succesfully Posted!'}) //!Could send posted data in here instead as a res.locals property
 })
 
