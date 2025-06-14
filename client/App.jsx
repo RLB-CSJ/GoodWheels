@@ -1,7 +1,7 @@
 import './static/styles.css';
 import { Navbar } from './components/Navbar';
 import { Market } from './components/Market';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Post } from './components/Post';
 import { Login } from './components/Login';
 import { SignUp } from './components/SignUp';

@@ -25,6 +25,10 @@ a:hover {
   color: var(--terciary-color);
 }
 
+a:active{
+  color: var(--secondary-color);
+}
+
 button {
   background-color: var(--primary-color);
   color: var(--text-light);
@@ -36,6 +40,10 @@ button {
 button:hover {
   background-color: var(--terciary-color);
   cursor: pointer;
+}
+
+button:active{
+    background-color: var(--secondary-color);
 }
 
 form {
@@ -67,6 +75,11 @@ form input[type='submit'] {
 
 form input[type='submit']:hover {
   background-color: var(--terciary-color);
+  cursor: pointer;
+}
+
+form input[type='submit']:hover {
+  background-color: var(--secondary-color);
   cursor: pointer;
 }
 
@@ -118,6 +131,10 @@ img {
 .bike button {
   width: 4rem;
   height: 2rem;
+}
+
+@slide-up{
+    from{}
 }
 
 .bike h2 {
