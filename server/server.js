@@ -1,5 +1,6 @@
 import express from 'express';
 import userController from './controllers/userController';
+import cookieController from './controllers/cookieController';
 
 const PORT = 3000;
 const app = express();
@@ -18,7 +19,7 @@ app.post('/signup', 'MIDDLEWARE', (req, res) => {
 })
 
 // Login Route handler
-app.post('/login', userController.verifyUser, 'cookieMiddleware', 'session middleware', (req, res) => {
+app.get('/login', userController.verifyUser, 'cookieMiddleware', 'session middleware', (req, res) => {
     if (!res.locals.authenticator) {
         // some logic if authentication is wrong
     }
