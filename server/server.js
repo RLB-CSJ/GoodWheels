@@ -1,6 +1,7 @@
 import express from 'express';
 import userController from './controllers/userController';
 import cookieController from './controllers/cookieController';
+import session from 'express-session';
 
 const PORT = 3000;
 const app = express();
@@ -19,19 +20,19 @@ app.post('/signup', 'MIDDLEWARE', (req, res) => {
 })
 
 // Login Route handler
-app.get('/login', userController.verifyUser, 'cookieMiddleware', 'session middleware', (req, res) => {
+app.post('/login', userController.verifyUser, 'cookieMiddleware', 'session middleware', (req, res) => {
     if (!res.locals.authenticator) {
         // some logic if authentication is wrong
     }
     else {
-        return res.redirect('/rent-a-bike') //redirect to app.get route for marketboard
+        return res.redirect('/rentBike') //redirect to app.get route for marketboard
     }
 })
 
 
 //* Authorized Routes
 // Marketboard main page route handler
-app.get('/rent-a-bike', sessionController.isLoggedin, (req, res) => {
+app.get('/rentBike', sessionController.isLoggedin, (req, res) => {
     // res.sendFile(our marketboard HTML page)
 })
 // Marketboard Available bikes Display route
@@ -44,7 +45,7 @@ app.patch('/api/bikes', 'MIDDLEWARE TO UPDATE INFORMATION', (req, res) => {
 })
 
 // Secondary Frontend Page rendering
-app.get('/post-a-bike', (req, res) => {
+app.get('/postBike', (req, res) => {
     // May be unneeded. Could potentially be done in client. Otherwise, res.redirect or res.sendFile(post-a-bike.html)
 })
 // Posting a new bike to rent/lend out from secondary Frontend page
