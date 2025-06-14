@@ -3,27 +3,17 @@ import { Navbar } from './components/Navbar';
 import { Market } from './components/Market';
 import { useState } from 'react';
 import { Post } from './components/Post';
-import { Login } from './components/Login';
-import { SignUp } from './components/SignUp';
 
 export function App() {
-  const [viewNav, setViewNav] = useState(false);
-  const [view, setView] = useState('login');
+  const [view, setView] = useState('market');
 
   function handleNavbarClick(view) {
     setView(view);
   }
 
-  function handleLogin(view) {
-    setViewNav(true);
-    setView('market')
-  }
-
   return (
     <div>
-      {viewNav && <Navbar onNavbarClick={handleNavbarClick} />}
-      {view === 'login' && <Login onLogin={handleLogin} onSignUp={handleNavbarClick}/>}
-      {view === 'signup' && <SignUp onLogin={handleLogin}/>}
+      <Navbar onNavbarClick={handleNavbarClick} />
       {view === 'market' && <Market />}
       {view === 'post' && <Post />}
     </div>
