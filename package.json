@@ -1,0 +1,32 @@
+{
+  "name": "goodwheels",
+  "version": "1.0.0",
+  "description": "A kids rental bike platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch ./server/server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "conc": "concurrently 'vite' 'dev'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RLB-CSJ/GoodWheels.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RLB-CSJ/GoodWheels/issues"
+  },
+  "homepage": "https://github.com/RLB-CSJ/GoodWheels#readme",
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
+    "concurrently": "^9.1.2",
+    "express": "^5.1.0",
+    "react": "^19.1.0"
+  }
+}
