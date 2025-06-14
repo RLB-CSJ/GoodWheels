@@ -1,3 +1,9 @@
+import { CreateBike } from './CreateBike';
+
 export function Post() {
-  return <div>This is the post component</div>;
+  return (
+  <div>
+    <CreateBike/>
+    </div>
+    )
 }

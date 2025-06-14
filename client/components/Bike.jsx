@@ -1,6 +1,6 @@
 export function Bike({ bike }) {
   return (
-    <div>
+    <div class='bike'>
       <img src={bike.picture} alt='Bike picture' />
       <ul>
         <li>
@@ -28,9 +28,12 @@ export function Bike({ bike }) {
           {bike.Brakes}
         </li>
       </ul>
-      <h2>
-        <strong>Cost: </strong>${bike.Cost}/day
-      </h2>
+      <div class="flexRow">
+        <h2>
+          <strong>Cost: </strong>${bike.Cost}/day
+        </h2>
+        <button>Rent</button>
+      </div>
     </div>
   );
 }

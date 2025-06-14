@@ -1,7 +1,7 @@
 export function Filters() {
   return (
-    <div>
-      This is the filters list
+    <div class="panel filters">
+      <h1>Filters</h1>
       <form>
         <label htmlFor='location'>Location</label>
         <input id='location' name='location' type='text'></input>
