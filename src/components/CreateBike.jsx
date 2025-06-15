@@ -1,9 +1,12 @@
 export function CreateBike() {
-  return (
+    function handleSubmit(event) {
+    event.preventDefault();
+  }
+  return(
     <div id="createBikeContainer">
-      <div class='panel createBike'>
+      <div className='panel createBike'>
         <h1>Add Bike</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor='image'>Picture</label>
           <input id='image' name='image' type='file'></input>
           <label htmlFor='location'>Location</label>
