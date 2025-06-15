@@ -15,8 +15,15 @@ const PORT = 3000;
 // Handlers
 
 app.use(express.json());
+app.use('/', express.static('./'));
 
-app.use('/', express.static('../client/static'));
+app.post('/login', (req, res) => {
+  if (true) {
+    res.redirect('/market');
+  } else {
+    res.redirect('/signup');
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🟢 Server listening on port ${PORT}`);

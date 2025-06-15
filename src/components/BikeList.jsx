@@ -12,7 +12,7 @@ export function BikeList() {
   ];
 
   return (
-    <div class="panel bikeList">
+    <div className="panel bikeList">
       {bikes.map((bike, index) => {
         return <Bike key={index} bike={bike} />;
       })}
