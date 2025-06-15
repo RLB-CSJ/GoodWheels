@@ -14,8 +14,11 @@ export function BikeList() {
     {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
   ];
 
+ // TODO
+  // Fetch request to /api/bikes
+
   return (
-    <div class="panel bikeList">
+    <div className="panel bikeList">
       {bikes.map((bike, index) => {
         return <Bike key={index} bike={bike} />;
       })}

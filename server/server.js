@@ -23,15 +23,21 @@ app.post('/signup', userController.createUser, (req, res) => {
 })
 
 
+
+// app.post('/login', userController.verifyUser, (req, res) => {
+// res.sendStatus(500)
+// })
+
+
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
         console.log('wrong pass/username!')
-        return res.redirect ('/signup');
+        return res.sendStatus(200);
     }
     else {
         console.log('correct user/pass!')
-        return res.redirect('/rentBike') //redirect to app.get route for marketboard
+        return res.redirect(301, '/rentBike') //redirect to app.get route for marketboard
     }
 })
 
@@ -47,7 +53,7 @@ app.get('/api/bikes', bikeController.getYesBikes, (req, res) => { // change midd
     res.status(200).json(res.locals.bikes) //!For testing! Should return only bikes with property YES
 })
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
-app.patch('/api/bikes', bikeController.changeBikeState, (req, res) => {
+app.patch('/api/allBikes', bikeController.changeBikeState, (req, res) => {
     res.status(200).json(res.locals.updatedData)
 })
 
@@ -56,7 +62,7 @@ app.get('/postBike', (req, res) => {
     // May be unneeded. Could potentially be done in client. Otherwise, res.redirect or res.sendFile(post-a-bike.html)
 })
 // Posting a new bike to rent/lend out from secondary Frontend page
-app.post('/api/bikes', bikeController.createBike, (req, res) => {
+app.post('/api/allBikes', bikeController.createBike, (req, res) => {
     res.status(201).json({message: 'Succesfully Posted!'}) //!Could send posted data in here instead as a res.locals property
 })
 

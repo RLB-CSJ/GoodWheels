@@ -16,13 +16,13 @@ body {
 }
 
 a {
-  color: var(--text-light);
+  color: var(--terciary-color);
+  text-decoration: none;
   font-size: large;
-
 }
 
 a:hover {
-  color: var(--terciary-color);
+  color: var(--primary-color);
 }
 
 a:active{
@@ -43,7 +43,7 @@ button:hover {
 }
 
 button:active{
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 form {
@@ -77,6 +77,10 @@ form input[type='submit']:hover {
   background-color: var(--terciary-color);
   cursor: pointer;
 }
+form input[type='submit']:active {
+  background-color: var(--secondary-color);
+}
+
 
 form input[type='submit']:hover {
   background-color: var(--secondary-color);
@@ -110,8 +114,8 @@ img {
   margin: 1rem;
 }
 
-.createBike{
-    width:50vw
+.createBike {
+  width: 50vw;
 }
 
 .bikeList {
@@ -156,10 +160,10 @@ img {
   padding: 0rem 1rem;
 }
 
-#createBikeContainer{
-    width:100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#createBikeContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

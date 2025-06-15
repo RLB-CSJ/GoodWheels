@@ -1,6 +1,11 @@
 export function Bike({ bike }) {
+
+  //TODO
+  // Fetch PATCH /api/allbikes
+  // { id , available }
+
   return (
-    <div class='bike'>
+    <div className='bike'>
       <img src={bike.picture} alt='Bike picture' />
       <ul>
         <li>
@@ -28,7 +33,7 @@ export function Bike({ bike }) {
           {bike.Brakes}
         </li>
       </ul>
-      <div class="flexRow">
+      <div className="flexRow">
         <h2>
           <strong>Cost: </strong>${bike.Cost}/day
         </h2>
