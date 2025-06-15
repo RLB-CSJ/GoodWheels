@@ -37,8 +37,12 @@ app.post('/login', userController.verifyUser, (req, res) => {
 app.get('/rentBike', (req, res) => {
     // res.sendFile(home.html) //!this file needs to be enabled but should link to new HTML
 })
+// Marketboard All bikes (for Testing!)
+app.get('/api/allBikes', bikeController.getAllBikes, (req, res) => {
+    res.status(200).json(res.locals.bikes)
+})
 // Marketboard Available bikes Display route
-app.get('/api/bikes', bikeController.getYesBikes, (req, res) => {
+app.get('/api/bikes', bikeController.getAllBikes, (req, res) => { // change middleware to be yesbikes
     res.status(200).json(res.locals.bikes) //!For testing! Should return only bikes with property YES
 })
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)

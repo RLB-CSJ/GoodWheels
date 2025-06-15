@@ -1,37 +1,66 @@
-// import db from '../models/MODEL NAME'
-
-import { normalize } from "path";
-
- const bikes = [
-    {Id: '1', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'Yes', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: false},
-    {Id: '2', picture:"https://picsum.photos/id/146/300/200", Type:'Road', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-    {Id: '3', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: false},
-    {Id: '4', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-    {Id: '5', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: false},
-    {Id: '6', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-    {Id: '7', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'Yes', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-    {Id: '8', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-    {Id: '9', picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10, available: true},
-  ];
+import supabase from '../models/bikeRentalModel.js'
 
 const bikeController = {};
 
 bikeController.getAllBikes = (req, res, next) => {
-    res.locals.bikes = bikes;
-    return next();
+    supabase.from('bikes')
+        .select()
+        .then(result => {
+            if (result.error) {
+                return next('ERROR Object')
+            }
+            res.locals.bikes = result.data;
+            return next();
+        })
 }
 
 bikeController.getYesBikes = (req, res, next) => {
-    res.locals.bikes = bikes.filter(bike => bike.available === true);
-    return next()
+        supabase.from('bikes')
+        .select()
+        .then(data => {
+            data.filter(bike => bike.available === true)
+        })
+        .then(yesBike => {
+            console.log(yesBike);
+            res.locals.bikes = yesBike;
+            return next();
+        })
+        .catch(err => {
+            return next('error NEEED TO FIX ERROR CODE')
+        });
 }
 
 bikeController.createBike = (req, res, next) => {
-    const {picture, Type, Electric, Wheel_Size, Frame_Size, Training_Wheels, Brakes, Cost} = req.body;
-    bikes.push(req.body);
-    res.locals.bikes = bikes;
-    return next();
-}
+  const {
+    owner_id,
+    type,
+    is_electric,
+    wheel_size,
+    frame_size,
+    brakes,
+    cost_per_day
+  } = req.body;
+
+  supabase
+    .from('bikes')
+    .insert([{
+      owner_id,
+      type,
+      is_electric,
+      wheel_size,
+      frame_size,
+      brakes,
+      cost_per_day
+    }])
+    .then(result => {
+        console.log('success');
+        return (next);
+    })
+    .catch (err => {
+        console.log(err);
+        return next('err: ' + err)
+    })
+};
 
 bikeController.changeBikeState = (req, res, next) => {
     const { id , available } = req.body; //! Can also change this to only take in id and have logic for state here
