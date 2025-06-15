@@ -4,6 +4,11 @@ export function SignUp({ onLogin }) {
     event.preventDefault();
   }
 
+
+// TODO
+// Fetch POST /signup
+// {name:'', email:'', password_hash:''}
+
   return (
     <div className="loginSignUp">
       <img src="src/assets/GW_Logo.png" />

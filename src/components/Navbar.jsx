@@ -7,7 +7,7 @@ export function Navbar({ onNavbarClick }) {
           <button>Rent a bike</button>
         </Link>
         <Link to="/post">
-          <button>Rent a bike</button>
+          <button>Post a bike</button>
         </Link>
       </div>
     </div>

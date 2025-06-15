@@ -1,4 +1,9 @@
 export function Bike({ bike }) {
+
+  //TODO
+  // Fetch PATCH /api/allbikes
+  // { id , available }
+
   return (
     <div className='bike'>
       <img src={bike.picture} alt='Bike picture' />
