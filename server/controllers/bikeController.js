@@ -17,12 +17,10 @@ bikeController.getAllBikes = (req, res, next) => {
 bikeController.getYesBikes = (req, res, next) => {
         supabase.from('bikes')
         .select()
-        .then(data => {
-            data.filter(bike => bike.available === true)
-        })
+        .eq('available', true) // Supabase method for checking if equal === true
         .then(yesBike => {
-            console.log(yesBike);
-            res.locals.bikes = yesBike;
+            // console.log(yesBike.data);
+            res.locals.bikes = yesBike.data;
             return next();
         })
         .catch(err => {
@@ -53,8 +51,8 @@ bikeController.createBike = (req, res, next) => {
       cost_per_day
     }])
     .then(result => {
-        console.log('success');
-        return (next);
+        console.log('success in creating bike!');
+        return next();
     })
     .catch (err => {
         console.log(err);
@@ -64,14 +62,19 @@ bikeController.createBike = (req, res, next) => {
 
 bikeController.changeBikeState = (req, res, next) => {
     const { id , available } = req.body; //! Can also change this to only take in id and have logic for state here
-    const bike = bikes.find(b => b.id === id);
-    if (bike) {
-        bike.available = available; //changing to the requested true or false in req. body
-        res.locals.updatedBike = bike;
-    } else {
-        return res.status(404).json({error: 'Bike not found'})
-    }
-    return next();
+    
+    supabase
+        .from('bikes')
+        .update( {'available': available} ) // WHY DOES THIS HAVE TO COME BEFORE EQ???
+        .eq('id', id)
+        .select()
+        .then(data => {
+            res.locals.updatedData = data.data; //Otherwise, sends data object back with err obj
+            next();
+        })
+        .catch(err => {
+            return next(err);
+        })
 }
 
 export default bikeController
