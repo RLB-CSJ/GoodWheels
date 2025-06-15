@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export function Login({ onLogin, onSignUp }) {
-  const [inputs, setInputs] = useState({ name: '', password: '' });
+  const [inputs, setInputs] = useState({ name: '', password_hash: '' });
 
   function handleChange(event) {
     const name = event.target.name;
@@ -12,11 +12,16 @@ export function Login({ onLogin, onSignUp }) {
   function handleSubmit(event) {
     event.preventDefault();
     (async () => {
-      await fetch('/login', {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(inputs),
       });
+      if (response.redirected) {
+        window.location.href = response.url;
+      } else if (response.ok) {
+        window.location.href = 'http://localhost:3000/rentBike'
+      }
     })();
   }
 
@@ -27,7 +32,7 @@ export function Login({ onLogin, onSignUp }) {
         <label>Username</label>
         <input name='name' type='text' onChange={handleChange}></input>
         <label>Password</label>
-        <input name='password' type='password' onChange={handleChange}></input>
+        <input name='password_hash' type='password' onChange={handleChange}></input>
         <input type='submit' value='Login'></input>
       </form>
       <h4
