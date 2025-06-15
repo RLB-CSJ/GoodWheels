@@ -40,15 +40,28 @@ userController.createUser = (req, res, next) => {
 }
 
 userController.verifyUser = (req, res, next) => {
-    const { username, password } = req.body;
-    const user = userTable.find(u => u.username === username && u.password === password);
-    if (!user) {
-        res.locals.authenticator = false;
-        return next();
-    }
-    res.locals.authenticator = true;
-    res.locals.user = user;
-    return next();
+    const { name, password_hash } = req.body;
+
+    supabase
+        .from('users')
+        .select()
+        .eq('name', name)
+        .eq('password_hash', password_hash)
+        .then(result => {
+            if (result.error || !result.data || result.data.length === 0) {
+                res.locals.authenticator = false;
+                return next();
+            }
+            else {
+                res.locals.authenticator = true;
+                res.locals.user = result.data[0];
+                return next()
+            }
+        })
+        .catch(err => {
+            res.locals.authenticator = false;
+            return next(err);
+        })
 }
 
 export default userController

@@ -25,9 +25,11 @@ app.post('/signup', userController.createUser, (req, res) => {
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
+        console.log('wrong pass/username!')
         return res.redirect ('/signup');
     }
     else {
+        console.log('correct user/pass!')
         return res.redirect('/rentBike') //redirect to app.get route for marketboard
     }
 })
