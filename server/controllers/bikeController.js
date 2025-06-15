@@ -54,7 +54,7 @@ bikeController.createBike = (req, res, next) => {
     }])
     .then(result => {
         console.log('success');
-        return (next);
+        return next();
     })
     .catch (err => {
         console.log(err);

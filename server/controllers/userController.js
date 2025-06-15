@@ -17,6 +17,7 @@ userController.createUser = (req, res, next) => { //! Testing purposes. No sanit
 }
 
 userController.verifyUser = (req, res, next) => {
+    console.log(req.body)
     const { username, password } = req.body;
     const user = userTable.find(u => u.username === username && u.password === password);
     if (!user) {

@@ -17,9 +17,10 @@ app.get('/signup', (req, res) => {
     res.sendFile(index.html); // load html page //! Needs testing to see if needed since we're doing MPA
 })
 // Create a user route
-app.post('/signup', (req, res) => {
+app.post('/signup', userController.createUser, (req, res) => {
     res.redirect('/rentBike'); // which will have authenticator checker
 })
+
 
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
@@ -27,7 +28,7 @@ app.post('/login', userController.verifyUser, (req, res) => {
         return res.redirect ('/signup');
     }
     else {
-        return res.redirect('/rentBike') //redirect to app.get route for marketboard
+        return res.sendFile(path.resolve('home.html')) //redirect to app.get route for marketboard
     }
 })
 
@@ -35,7 +36,7 @@ app.post('/login', userController.verifyUser, (req, res) => {
 //* Authorized Routes
 // Marketboard main page route handler
 app.get('/rentBike', (req, res) => {
-    // res.sendFile(home.html) //!this file needs to be enabled but should link to new HTML
+    res.sendFile(path.resolve('./home.html')) //!this file needs to be enabled but should link to new HTML
 })
 // Marketboard All bikes (for Testing!)
 app.get('/api/allBikes', bikeController.getAllBikes, (req, res) => {

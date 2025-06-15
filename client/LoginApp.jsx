@@ -7,19 +7,15 @@ import { SignUp } from './components/SignUp';
 export function LoginApp() {
   const [view, setView] = useState('login');
 
-    function handleSignUp(view) {
+  function handleSignUp(view) {
     setView(view);
-  }
-
-  function handleLogin(view) {
-    setView('login');
   }
 
   return (
     <div>
-      <a href="/home.html">Go Home</a>
-      {view === 'login' && <Login onLogin={handleLogin} onSignUp={handleSignUp}/>}
-      {view === 'signup' && <SignUp onLogin={handleLogin} />}
+      <a href='/home.html'>Go Home</a>
+      {view === 'login' && <Login onSignUp={handleSignUp} />}
+      {view === 'signup' && <SignUp />}
     </div>
   );
 }
