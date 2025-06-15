@@ -22,6 +22,7 @@ app.post('/signup', userController.createUser, (req, res) => {
     // res.redirect('/rentBike'); // which will have authenticator checker
 })
 
+
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
@@ -38,7 +39,7 @@ app.post('/login', userController.verifyUser, (req, res) => {
 //* Authorized Routes
 // Marketboard main page route handler
 app.get('/rentBike', (req, res) => {
-    // res.sendFile(home.html) //!this file needs to be enabled but should link to new HTML
+    res.sendFile(path.resolve('./home.html')) //!this file needs to be enabled but should link to new HTML
 })
 
 // Marketboard Available bikes Display route
