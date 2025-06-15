@@ -23,6 +23,7 @@ userController.verifyUser = (req, res, next) => {
         res.locals.authenticator = false;
         return next();
     }
+    res.locals.authenticator = true;
     res.locals.user = user;
     return next();
 }
