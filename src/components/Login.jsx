@@ -4,34 +4,38 @@ import { Link } from 'react-router-dom';
 
 export function Login({ onLogin, onSignUp }) {
   const navigate = useNavigate();
-  const [inputs, setInputs]= useState({})
+  const [inputs, setInputs] = useState({});
 
-  function handleChange (evenet){
+  function handleChange(evenet) {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
+    setInputs((values) => ({ ...values, [name]: value }));
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
     (async () => {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(inputs),
-      });
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(inputs),
+        });
 
-      if (response.redirected) {
-        navigate('/market');
-      } else {
-        navigate('/signup');
+        if (response.redirected) {
+          navigate('/market');
+        } else {
+          navigate('/signup');
+        }
+      } catch (error) {
+        console.log('Login error: ', error);
       }
     })();
   }
-  
+
   return (
     <div className="loginSignUp">
       <img src="src/assets/GW_Logo.png" />

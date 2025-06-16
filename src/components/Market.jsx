@@ -3,7 +3,7 @@ import { Filters } from './Filters';
 
 export function Market() {
   return (
-    <div class="market">
+    <div className="market">
       <BikeList />
       <Filters />
     </div>

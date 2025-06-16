@@ -16,18 +16,22 @@ export function SignUp({ onLogin }) {
     event.preventDefault();
 
     (async () => {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(inputs),
-      });
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(inputs),
+        });
 
-      if (response.redirected) {
-        navigate('/market');
-      } else {
-        navigate('/signup');
+        if (response.redirected) {
+          navigate('/market');
+        } else {
+          navigate('/signup');
+        }
+      } catch (error) {
+        console.log('Signup error: ', error);
       }
     })();
   }

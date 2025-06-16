@@ -1,18 +1,16 @@
+import { useEffect, useState } from 'react';
 import { Bike } from './Bike';
 
 export function BikeList() {
-  // prettier-ignore
-  const bikes = [
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-    {picture:"https://picsum.photos/id/146/300/200", Type:'Mountain', Electric:'No', Wheel_Size:'8', Frame_Size:'XS', Training_Wheels:'No', Brakes:"Coaster", Cost:10},
-  ];
+const [bikes, setbikes] = useState([])
+
+useEffect(()=>{
+  (async()=>{
+    const data = await fetch('/api/bikes').then((res)=>res.json())
+    console.log('⚠️ Data',data)
+    setbikes(data)
+  })()
+},[])
 
  // TODO
   // Fetch request to /api/bikes
