@@ -21,8 +21,9 @@ app.get('/signup', (req, res) => {
 // Create a user route
 app.post('/signup', userController.createUser, (req, res) => {
   const { name, email, password_hash } = req.body;
-  const accessToken = authController.generateAccessToken(name);
-  const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET)
+  const user = { name, email }
+  const accessToken = authController.generateAccessToken(user);
+  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
 
    supabase
             .from('refreshtoken')
@@ -34,19 +35,19 @@ app.post('/signup', userController.createUser, (req, res) => {
                     console.log(result.error);
                     return res.status(500).json({error: 'Failed to store refresh token'})
                 }
-                return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken })//! Check in frontend in Login.jsx
+                return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken })
             })
             .catch((err => {
                 console.log(err);
                 return res.status(500).json( {error: 'unexpected server error'} )
-            })) //! FIX THIS SOMETHING ISNT WORKING
+            })) 
 })
 
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
         console.log('wrong pass/username!')
-        return res.sendStatus(401); //! Check with Frontend in Login.jsx after frontend issues are resolved to see if redirects properly
+        return res.sendStatus(401); 
     }
     else {
         console.log('correct user/pass!');
@@ -65,7 +66,7 @@ app.post('/login', userController.verifyUser, (req, res) => {
                     console.log(result.error);
                     return res.status(500).json({error: 'Failed to store refresh token'})
                 }
-                return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken })//! Check in frontend in Login.jsx
+                return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken })
             })
             .catch((err => {
                 console.log(err);
@@ -77,6 +78,10 @@ app.post('/login', userController.verifyUser, (req, res) => {
 // Route to create new access tokens based on refresh for AUTH
 app.post('/token', authController.checkRefresh, (req, res) => {
     res.status(200).json( {accessToken: res.locals.accessToken} )
+})
+// Route to validate Auth tokens
+app.get('/verify', authController.authenticateUser, (req, res) => {
+  return res.status(200).json(req.user);
 })
 // Route to delete refresh tokens from the database
 app.delete('/logout', (req, res) => {
@@ -92,10 +97,10 @@ app.get('/rentBike', (req, res) => {
 // Marketboard Available bikes Display route
 app.get('/api/bikes', bikeController.getYesBikes, (req, res) => {
   // change middleware to be yesbikes
-  res.status(200).json(res.locals.bikes); //!For testing! Should return only bikes with property YES
+  res.status(200).json(res.locals.bikes); 
 });
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
-app.patch('/api/allBikes', authController.authenticateUser, bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
+app.patch('/api/allBikes', bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
     res.status(200).json(res.locals.updatedData)
 })
 
@@ -117,6 +122,7 @@ app.get('/api/allBikes', bikeController.getAllBikes, (req, res) => {
 app.get('/api/users', userController.getAllUsers, (req, res) => {
   res.status(200).json(res.locals.users);
 });
+
 
 //* Unknown route handler
 app.use((req, res) => res.status(404).send("This is not the page you're looking for..."));

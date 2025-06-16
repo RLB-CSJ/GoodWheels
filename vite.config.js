@@ -6,7 +6,6 @@ export default defineConfig({
   server:{
     proxy:{
       "/login":"http://localhost:3000",
-      "/market":"http://localhost:3000",
       "/api": "http://localhost:3000",
       "/assets": "http://localhost:3000",
       "/signup":  "http://localhost:3000"
