@@ -34,25 +34,27 @@ bikeController.getYesBikes = (req, res, next) => { // Middleware to only get bik
 bikeController.getFilterBikes = (req, res, next) => {
     let query = supabase.from('bikes').select();
 
-    if (req.query.location) {
-        query = query.ilike('location', `%${req.query.location}%`)
+    if (req.body.type) {
+        query = query.ilike('type', `%${req.body.type}%`)
     }
-    if (req.query.training_wheels) {
-        query = query.eq('traning_wheels', Boolean(req.query.training_wheels))
+    if (req.body.is_electric !== undefined) {
+        query = query.eq('is_electric', Boolean(req.body.is_electric))
     }
-    if (req.query.is_electric) {
-        query = query.eq('is_electric', Boolean(req.query.is_electric))
+    if (req.body.wheel_size){
+        query = query.eq('wheel_size', Number(req.body.wheel_size))
     }
-    if (req.query.type){
-        query = query.ilike('type', `%${req.query.type}%`)
+    if (req.body.frame_size) {
+        query = query.eq('frame_size', req.body.frame_size)
     }
-    if (req.query.wheel_size){
-        query = query.eq('wheel_size', Number(req.query.wheel_size))
+    if (req.body.brakes) {
+        query = query.eq('brakes', req.body.brakes)
     }
-    if (req.query.frame_size) {
-        query = query.eq('frame_size', `%${req.query.frame_size}$`)
+    if (req.body.training_wheels !== undefined) {
+        query = query.eq('training_wheels', Boolean(req.body.training_wheels))
     }
-    
+    if (req.body.location) {
+        query = query.ilike('location', `%${req.body.location}%`)
+    }
 
     query.then(result => {
         if (result.error) {return next(result.error)};
