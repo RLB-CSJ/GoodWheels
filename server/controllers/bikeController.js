@@ -19,6 +19,9 @@ bikeController.getYesBikes = (req, res, next) => {
         .select()
         .eq('available', true) // Supabase method for checking if equal === true
         .then(yesBike => {
+            if (yesBike.error) {
+                return res.sendStatus(401);
+            }
             // console.log(yesBike.data);
             res.locals.bikes = yesBike.data;
             return next();
@@ -36,7 +39,8 @@ bikeController.createBike = (req, res, next) => {
     wheel_size,
     frame_size,
     brakes,
-    cost_per_day
+    cost_per_day,
+    training_wheels
   } = req.body;
 
   supabase
@@ -48,7 +52,8 @@ bikeController.createBike = (req, res, next) => {
       wheel_size,
       frame_size,
       brakes,
-      cost_per_day
+      cost_per_day,
+      training_wheels
     }])
     .then(result => {
         console.log('success in creating bike!');

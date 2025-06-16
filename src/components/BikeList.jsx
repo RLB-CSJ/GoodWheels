@@ -12,9 +12,6 @@ useEffect(()=>{
   })()
 },[])
 
- // TODO
-  // Fetch request to /api/bikes
-
   return (
     <div className="panel bikeList">
       {bikes.map((bike, index) => {

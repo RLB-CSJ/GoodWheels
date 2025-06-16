@@ -6,7 +6,7 @@ export function SignUp({ onLogin }) {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
 
-  function handleChange(evenet) {
+  function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
@@ -17,7 +17,7 @@ export function SignUp({ onLogin }) {
 
     (async () => {
       try {
-        const response = await fetch('/login', {
+        const response = await fetch('/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -25,10 +25,11 @@ export function SignUp({ onLogin }) {
           body: JSON.stringify(inputs),
         });
 
-        if (response.redirected) {
-          navigate('/market');
-        } else {
+        if (!response.ok) {
+          alert('Error: Email already exists')
           navigate('/signup');
+        } else {
+          navigate('/market');
         }
       } catch (error) {
         console.log('Signup error: ', error);
@@ -50,9 +51,9 @@ export function SignUp({ onLogin }) {
         <input id="email" name="email" type="text" onChange={handleChange}></input>
         <label htmlFor="password_hash">Password</label>
         <input id="password_hash" name="password_hash" type="password" onChange={handleChange}></input>
-        <Link to="/market">
+        {/* <Link to="/market"> */}
           <input type="submit" value="Sign Up"></input>
-        </Link>
+        {/* </Link> */}
       </form>
     </div>
   );
