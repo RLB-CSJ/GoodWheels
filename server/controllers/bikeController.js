@@ -31,6 +31,12 @@ bikeController.getYesBikes = (req, res, next) => {
         });
 }
 
+
+
+
+
+
+
 bikeController.createBike = (req, res, next) => {
   const {
     owner_id,

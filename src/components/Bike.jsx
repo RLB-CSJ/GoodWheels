@@ -1,9 +1,25 @@
-export function Bike({ bike }) {
+export function Bike({ bike, rent }) {
+  function handleClick() {
+    (async () => {
+      try {
+        const response = await fetch('/api/allBikes', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id:bike.id, available:false}),
+        });
+      } catch (error) {
+        console.log('Rent bike error: ', error);
+      }
+      rent()
+    })();
+  }
 
   return (
-    <div className='bike'>
-      {bike.picture &&  <img width="300px" src={bike.picture} alt='Bike picture' />}
-      {!bike.picture &&  <img width="300px" src='src/assets/Picture_Unavailable.jpg' alt='Bike unavailable picture' />}
+    <div className="bike">
+      {bike.picture && <img width="300px" src={bike.picture} alt="Bike picture" />}
+      {!bike.picture && <img width="300px" src="src/assets/Picture_Unavailable.jpg" alt="Bike unavailable picture" />}
 
       <ul>
         <li>
@@ -35,7 +51,7 @@ export function Bike({ bike }) {
         <h2>
           <strong>Cost: </strong>${bike.cost_per_day}/day
         </h2>
-        <button>Rent</button>
+        <button onClick={handleClick}>Rent</button>
       </div>
     </div>
   );

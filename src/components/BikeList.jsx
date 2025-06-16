@@ -10,12 +10,16 @@ useEffect(()=>{
     console.log('⚠️ Data',data)
     setbikes(data)
   })()
-},[])
+},[bikes, handleRent])
+
+function handleRent(){
+  setbikes(bikes)
+}
 
   return (
     <div className="panel bikeList">
       {bikes.map((bike, index) => {
-        return <Bike key={index} bike={bike} />;
+        return <Bike key={index} bike={bike} rent={handleRent}/>;
       })}
     </div>
   );
