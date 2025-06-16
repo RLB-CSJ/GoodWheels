@@ -38,7 +38,11 @@ bikeController.getFilterBikes = (req, res, next) => {
         query = query.ilike('type', `%${req.body.type}%`)
     }
     if (req.body.is_electric !== undefined) {
-        query = query.eq('is_electric', Boolean(req.body.is_electric))
+        let isElectric = req.body.is_electric;
+        if (typeof isElectric === 'string') {
+            isElectric = isElectric === 'true'
+        }
+        query = query.eq('is_electric', isElectric)
     }
     if (req.body.wheel_size){
         query = query.eq('wheel_size', Number(req.body.wheel_size))
@@ -50,7 +54,11 @@ bikeController.getFilterBikes = (req, res, next) => {
         query = query.eq('brakes', req.body.brakes)
     }
     if (req.body.training_wheels !== undefined) {
-        query = query.eq('training_wheels', Boolean(req.body.training_wheels))
+        let trainingWheels = req.body.training_wheels;
+        if (typeof trainingWheels === 'string') {
+            trainingWheels = trainingWheels === 'true'
+        }
+        query = query.eq('training_wheels', trainingWheels)
     }
     if (req.body.location) {
         query = query.ilike('location', `%${req.body.location}%`)
