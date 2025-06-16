@@ -1,7 +1,15 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 export function Login({ onLogin, onSignUp }) {
   const navigate = useNavigate();
+  const [inputs, setInputs]= useState({})
+
+  function handleChange (evenet){
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -12,29 +20,25 @@ export function Login({ onLogin, onSignUp }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: 'james', password_hash: '12345' }),
+        body: JSON.stringify(inputs),
       });
 
       if (response.redirected) {
         navigate('/market');
-      }else{
+      } else {
         navigate('/signup');
       }
     })();
   }
-
-
-  // TODO
-  // Actually use input fields as data
-
+  
   return (
     <div className="loginSignUp">
       <img src="src/assets/GW_Logo.png" />
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input id="username" name="username" type="text"></input>
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password"></input>
+        <label htmlFor="name">Username</label>
+        <input id="name" name="name" type="text" onChange={handleChange}></input>
+        <label htmlFor="password_hash">Password</label>
+        <input id="password_hash" name="password_hash" type="password" onChange={handleChange}></input>
         {/* <Link to="/market"> */}
         <input type="submit" value="Login"></input>
         {/* </Link> */}

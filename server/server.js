@@ -31,6 +31,7 @@ app.post('/signup', userController.createUser, (req, res) => {
 
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
+    console.log(req.body)
     if (!res.locals.authenticator) {
         console.log('wrong pass/username!')
         return res.sendStatus(200);
