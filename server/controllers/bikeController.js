@@ -14,8 +14,8 @@ bikeController.getAllBikes = (req, res, next) => {
         })
 }
 
-bikeController.getYesBikes = (req, res, next) => {
-        supabase.from('bikes')
+bikeController.getYesBikes = (req, res, next) => { // Middleware to only get bikes with filter available === true
+    supabase.from('bikes')
         .select()
         .eq('available', true) // Supabase method for checking if equal === true
         .then(yesBike => {
@@ -31,11 +31,37 @@ bikeController.getYesBikes = (req, res, next) => {
         });
 }
 
+bikeController.getFilterBikes = (req, res, next) => {
+    let query = supabase.from('bikes').select();
 
+    if (req.query.location) {
+        query = query.ilike('location', `%${req.query.location}%`)
+    }
+    if (req.query.training_wheels) {
+        query = query.eq('traning_wheels', Boolean(req.query.training_wheels))
+    }
+    if (req.query.is_electric) {
+        query = query.eq('is_electric', Boolean(req.query.is_electric))
+    }
+    if (req.query.type){
+        query = query.ilike('type', `%${req.query.type}%`)
+    }
+    if (req.query.wheel_size){
+        query = query.eq('wheel_size', Number(req.query.wheel_size))
+    }
+    if (req.query.frame_size) {
+        query = query.eq('frame_size', `%${req.query.frame_size}$`)
+    }
+    
 
-
-
-
+    query.then(result => {
+        if (result.error) {return next(result.error)};
+        res.locals.bikes = result.data;
+        return next()
+    })
+    .catch (err => next('error in getFilterBikes: ' + err))
+}
+// SELECT * FROM bikes WHERE location LIKE '%' AND training_wheels = true AND cost_per_day <= 20;
 
 bikeController.createBike = (req, res, next) => {
   const {
