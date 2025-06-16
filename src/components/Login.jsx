@@ -15,7 +15,9 @@ export function Login({ onLogin, onSignUp }) {
         body: JSON.stringify({ name: 'james', password_hash: '12345' }),
       });
 
-      if (response.redirected) {
+      if (response.ok) {
+        const { accessToken, refreshToken } = await response.json();
+        sessionStorage.setItem('accessToken', accessToken)
         navigate('/market');
       }else{
         navigate('/signup');

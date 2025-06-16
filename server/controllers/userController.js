@@ -62,4 +62,5 @@ userController.verifyUser = (req, res, next) => {
     });
 };
 
+
 export default userController;
