@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
 export function Login({ onLogin, onSignUp }) {
   const navigate = useNavigate();
   const [inputs, setInputs]= useState({})
