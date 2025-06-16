@@ -1,9 +1,11 @@
 import express from 'express';
-import session from 'express-session';
 import path from 'path';
+import jwt from 'jsonwebtoken';
+
+import supabase from './models/bikeRentalModel.js';
 import userController from './controllers/userController.js';
-import cookieController from './controllers/cookieController.js';
 import bikeController from './controllers/bikeController.js';
+import authController from './controllers/authController.js';
 
 const PORT = 3000;
 const app = express();
@@ -22,30 +24,51 @@ app.post('/signup', userController.createUser, (req, res) => {
     // res.redirect('/rentBike'); // which will have authenticator checker
 })
 
-
-
-// app.post('/login', userController.verifyUser, (req, res) => {
-// res.sendStatus(500)
-// })
-
-
 // Login Route handler
 app.post('/login', userController.verifyUser, (req, res) => {
     if (!res.locals.authenticator) {
         console.log('wrong pass/username!')
-        return res.sendStatus(200);
+        return res.sendStatus(401); //! Check with Frontend in Login.jsx after frontend issues are resolved to see if redirects properly
     }
     else {
-        console.log('correct user/pass!')
-        return res.redirect(301, '/rentBike') //redirect to app.get route for marketboard
+        console.log('correct user/pass!');
+        const username = res.locals.user.name;
+        const user = { name: username };
+
+        const accessToken = authController.generateAccessToken(user);
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET); // Because generateAccessToken function is set to expire, refreshToken is needed in order to generate a new serialized token
+        supabase
+            .from('refreshtoken')
+            .insert([{
+                token: refreshToken
+            }])
+            .then((result) => {
+                if (result.error) {
+                    console.log(result.error);
+                    return res.status(500).json({error: 'Failed to store refresh token'})
+                }
+                return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken })//! Check in frontend in Login.jsx
+            })
+            .catch((err => {
+                console.log(err);
+                return res.status(500).json( {error: 'unexpected server error'} )
+            }))
+
     }
 })
-
+// Route to create new access tokens based on refresh for AUTH
+app.post('/token', authController.checkRefresh, (req, res) => {
+    res.status(200).json( {accessToken: res.locals.accessToken} )
+})
+// Route to delete refresh tokens from the database
+app.delete('/logout', (req, res) => {
+    res.sendStatus(204)
+})
 
 //* Authorized Routes
 // Marketboard main page route handler
 app.get('/rentBike', (req, res) => {
-    res.sendFile(path.resolve('./home.html')) //!this file needs to be enabled but should link to new HTML
+    res.sendFile(path.resolve('./home.html')) //!No longer needed. During final prod, consider deleting
 })
 
 // Marketboard Available bikes Display route
@@ -53,7 +76,7 @@ app.get('/api/bikes', bikeController.getYesBikes, (req, res) => { // change midd
     res.status(200).json(res.locals.bikes) //!For testing! Should return only bikes with property YES
 })
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
-app.patch('/api/allBikes', bikeController.changeBikeState, (req, res) => {
+app.patch('/api/allBikes', authController.authenticateUser, bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
     res.status(200).json(res.locals.updatedData)
 })
 
