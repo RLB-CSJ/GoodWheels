@@ -26,9 +26,11 @@ export function SignUp({ onLogin }) {
         });
 
         if (!response.ok) {
-          alert('Error: Email already exists')
+          alert('Error: Email already exists');
           navigate('/signup');
         } else {
+          const { accessToken, refreshToken } = await response.json();
+          sessionStorage.setItem('accessToken', accessToken);
           navigate('/market');
         }
       } catch (error) {
@@ -52,7 +54,7 @@ export function SignUp({ onLogin }) {
         <label htmlFor="password_hash">Password</label>
         <input id="password_hash" name="password_hash" type="password" onChange={handleChange}></input>
         {/* <Link to="/market"> */}
-          <input type="submit" value="Sign Up"></input>
+        <input type="submit" value="Sign Up"></input>
         {/* </Link> */}
       </form>
     </div>

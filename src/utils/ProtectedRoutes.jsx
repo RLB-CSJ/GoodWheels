@@ -30,7 +30,7 @@ const ProtectedRoutes = () => {
 
     if (isAuth === null) {return null};
 
-    return isAuth ? <Outlet/> : <Navigate to ="/signup"/>
+    return isAuth ? <Outlet/> : <Navigate to ="/"/>
 }
 
 export default ProtectedRoutes
