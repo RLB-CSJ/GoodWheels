@@ -25,13 +25,12 @@ export function Login({ onLogin, onSignUp }) {
           body: JSON.stringify(inputs),
         });
 
-        if (response.redirected) {
-          navigate('/market');
-        } else {
-          navigate('/signup');
-        }
-      } catch (error) {
-        console.log('Login error: ', error);
+      if (response.ok) {
+        const { accessToken, refreshToken } = await response.json();
+        sessionStorage.setItem('accessToken', accessToken)
+        navigate('/market');
+      }else{
+        navigate('/signup');
       }
     })();
   }
