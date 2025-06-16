@@ -1,11 +1,15 @@
+import { Navbar } from './Navbar';
 import { BikeList } from './BikeList';
 import { Filters } from './Filters';
 
 export function Market() {
   return (
-    <div className="market">
-      <BikeList />
-      <Filters />
-    </div>
+    <>
+      <Navbar></Navbar>
+      <div className="market">
+        <BikeList />
+        <Filters />
+      </div>
+    </>
   );
 }
