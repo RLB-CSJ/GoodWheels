@@ -95,13 +95,17 @@ app.get('/rentBike', (req, res) => {
 })
 
 // Marketboard Available bikes Display route
-app.get('/api/bikes', bikeController.getYesBikes, (req, res) => {
+app.get('/api/bikes', bikeController.getYesBikes, (req, res) => { //! Potentially use filter instead
   // change middleware to be yesbikes
   res.status(200).json(res.locals.bikes); 
 });
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
 app.patch('/api/allBikes', bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
-    res.status(200).json(res.locals.updatedData)
+    res.status(200).json(res.locals.updatedData);
+})
+// Marketboard filter 
+app.post('/api/bikes', bikeController.getFilterBikes, (req, res) => {
+  res.status(200).json(res.locals.bikes);
 })
 
 // Secondary Frontend Page rendering
