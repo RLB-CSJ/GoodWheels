@@ -17,7 +17,6 @@ userController.getAllUsers = (req, res, next) => {
 
 userController.createUser = (req, res, next) => {
   const { name, email, password_hash } = req.body;
-
   supabase
     .from('users')
     .insert([
@@ -28,8 +27,11 @@ userController.createUser = (req, res, next) => {
       },
     ])
     .then((result) => {
+      if (result.error) {
+        console.log('email already exists!');
+        return res.status(401).send('email already exists!');
+      }
       console.log('success in creating user!');
-      res.locals.user = result;
       return next();
     })
     .catch((err) => {

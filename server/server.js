@@ -20,8 +20,26 @@ app.get('/signup', (req, res) => {
 });
 // Create a user route
 app.post('/signup', userController.createUser, (req, res) => {
-    res.status(201).json(res.locals.user);
-    // res.redirect('/rentBike'); // which will have authenticator checker
+  const { name, email, password_hash } = req.body;
+  const accessToken = authController.generateAccessToken(name);
+  const refreshToken = jwt.sign(name, process.env.REFRESH_TOKEN_SECRET)
+
+   supabase
+            .from('refreshtoken')
+            .insert([{
+                token: refreshToken
+            }])
+            .then((result) => {
+                if (result.error) {
+                    console.log(result.error);
+                    return res.status(500).json({error: 'Failed to store refresh token'})
+                }
+                return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken })//! Check in frontend in Login.jsx
+            })
+            .catch((err => {
+                console.log(err);
+                return res.status(500).json( {error: 'unexpected server error'} )
+            })) //! FIX THIS SOMETHING ISNT WORKING
 })
 
 // Login Route handler

@@ -2,8 +2,8 @@ export function Bike({ bike }) {
 
   return (
     <div className='bike'>
-      {bike.picture &&  <img src={bike.picture} alt='Bike picture' />}
-      {!bike.picture &&  <img src='src/assets/Picture_Unavailable.jpg' alt='Bike unavailable picture' />}
+      {bike.picture &&  <img width="300px" src={bike.picture} alt='Bike picture' />}
+      {!bike.picture &&  <img width="300px" src='src/assets/Picture_Unavailable.jpg' alt='Bike unavailable picture' />}
 
       <ul>
         <li>
@@ -24,7 +24,7 @@ export function Bike({ bike }) {
         </li>
         <li>
           <strong>Training Wheels: </strong>
-          {bike.training_wheels}
+          {bike.training_wheels.toString()}
         </li>
         <li>
           <strong>Brakes: </strong>
