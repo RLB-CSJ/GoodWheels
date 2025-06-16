@@ -1,41 +1,39 @@
 export function Bike({ bike }) {
 
-  //TODO
-  // Fetch PATCH /api/allbikes
-  // { id , available }
-
   return (
     <div className='bike'>
-      <img src={bike.picture} alt='Bike picture' />
+      {bike.picture &&  <img src={bike.picture} alt='Bike picture' />}
+      {!bike.picture &&  <img src='src/assets/Picture_Unavailable.jpg' alt='Bike unavailable picture' />}
+
       <ul>
         <li>
           <strong>Type: </strong>
-          {bike.Type}
+          {bike.type}
         </li>
         <li>
           <strong>Electric: </strong>
-          {bike.Electric}
+          {bike.is_electric}
         </li>
         <li>
           <strong>Wheel Size: </strong>
-          {bike.Wheel_Size}
+          {bike.wheel_size}
         </li>
         <li>
           <strong>Frame Size: </strong>
-          {bike.Frame_Size}
+          {bike.frame_size}
         </li>
         <li>
           <strong>Training Wheels: </strong>
-          {bike.Training_Wheels}
+          {bike.training_wheels}
         </li>
         <li>
           <strong>Brakes: </strong>
-          {bike.Brakes}
+          {bike.brakes}
         </li>
       </ul>
       <div className="flexRow">
         <h2>
-          <strong>Cost: </strong>${bike.Cost}/day
+          <strong>Cost: </strong>${bike.cost_per_day}/day
         </h2>
         <button>Rent</button>
       </div>
