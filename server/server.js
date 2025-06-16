@@ -95,7 +95,7 @@ app.get('/api/bikes', bikeController.getYesBikes, (req, res) => {
   res.status(200).json(res.locals.bikes); //!For testing! Should return only bikes with property YES
 });
 // Marketboard patch request (to take update bike database and declare a bike as taken/not available)
-app.patch('/api/allBikes', authController.authenticateUser, bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
+app.patch('/api/allBikes', bikeController.changeBikeState, (req, res) => { //! If things break, get rid of authController. It is here to make sure auth has a purpose
     res.status(200).json(res.locals.updatedData)
 })
 
