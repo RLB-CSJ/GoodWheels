@@ -119,11 +119,13 @@ img {
 }
 
 .bikeList {
+  height:90%;
   flex-grow: 2;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 2rem;
+  overflow-y: scroll;
 }
 
 .bike {
@@ -166,4 +168,16 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bikeImage{
+  
+  object-fit: cover;
+  width: 300px;
+  height: 200px;
+
+}
+
+.filters{
+  height:90%
 }

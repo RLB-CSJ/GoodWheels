@@ -18,10 +18,14 @@ export function Bike({ bike, rent }) {
 
   return (
     <div className="bike">
-      {bike.picture && <img width="300px" src={bike.picture} alt="Bike picture" />}
-      {!bike.picture && <img width="300px" src="src/assets/Picture_Unavailable.jpg" alt="Bike unavailable picture" />}
+      {bike.picture && <img className="bikeImage" src={bike.picture} alt="Bike picture" />}
+      {!bike.picture && <img className="bikeImage" src="src/assets/Picture_Unavailable.jpg" alt="Bike unavailable picture" />}
 
       <ul>
+        <li>
+          <strong>Location: </strong>
+          {bike.location}
+        </li>
         <li>
           <strong>Type: </strong>
           {bike.type}
