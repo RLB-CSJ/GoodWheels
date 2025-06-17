@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-export function Filters() {
-  const [inputs, setInputs] = useState({location:'%', is_electric:'%', wheel_size: '%', frame_size:'%', training_wheels:'%', brakes:'%'});
-  
+export function Filters({ filter }) {
+  const [inputs, setInputs] = useState({});
+
   function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -11,20 +11,20 @@ export function Filters() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    (async () => {
-      try {
-        const response = await fetch('/api/bikes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(inputs),
-        });
-      } catch (error) {
-        console.log('Filter error: ', error);
-      }
-    })();
-    
+    // (async () => {
+    //   try {
+    //     const response = await fetch('/api/bikes', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(inputs),
+    //     });
+    //   } catch (error) {
+    //     console.log('Filter error: ', error);
+    //   }
+    // })();
+    filter(inputs);
   }
 
   return (

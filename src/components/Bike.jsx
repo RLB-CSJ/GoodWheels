@@ -23,6 +23,10 @@ export function Bike({ bike, rent }) {
 
       <ul>
         <li>
+          <strong>Location: </strong>
+          {bike.location}
+        </li>
+        <li>
           <strong>Type: </strong>
           {bike.type}
         </li>
